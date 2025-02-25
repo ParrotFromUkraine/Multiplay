@@ -1,0 +1,76 @@
+@font-face {
+    font-family: NAMU-1990;
+    src: url(fonts/NAMU-1990.otf);
+}
+
+*{
+    font-family: NAMU-1990;
+    box-sizing: border-box;
+    background-color: black;
+    color: green;
+}body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f4f4f4;
+}
+
+#registration, #game {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+    text-align: center;
+}
+
+.form-group {
+    margin: 10px 0;
+}
+
+input {
+    padding: 10px;
+    width: 80%;
+    font-size: 16px;
+}
+
+button {
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+#errorMessage {
+    margin-top: 20px;
+    color: red;
+}
+
+#players {
+    display: flex;
+    justify-content: flex-end;
+    padding: 10px;
+}
+
+#players p {
+    margin-left: 20px;
+    font-weight: bold;
+}
+
+#history {
+    position: fixed;
+    left: 0;
+    top: 80px;
+    padding: 10px;
+    max-height: 80vh;
+    overflow-y: auto;
+    width: 250px;
+    background-color: rgba(0, 0, 0, 0.5);
+    color: white;
+    font-family: 'Courier New', Courier, monospace;
+}
+
+#gamePlay {
+    margin-top: 20px;
+}
+
+#gameMessage {
+    color: green;
+}
