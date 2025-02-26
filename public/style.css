@@ -98,11 +98,14 @@ button:hover {
     max-height: 70vh;
     overflow-y: auto;
     width: 280px;
-    background: rgba(0, 0, 0, 0.7);
-    color: white;
+    background: black;
+    color: #00ff00;
     font-family: 'Courier New', Courier, monospace;
     border-radius: 8px;
     box-shadow: 0px 0px 15px rgba(0, 255, 0, 0.3);
+    border: 2px solid #00ff00;
+    padding: 10px;
+    white-space: pre-wrap;
 }
 
 #gamePlay {
