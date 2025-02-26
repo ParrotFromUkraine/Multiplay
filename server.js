@@ -1,98 +1,79 @@
-const express = require('express')
 const http = require('http')
 const socketIo = require('socket.io')
+const express = require('express')
 
+// Створюємо Express додаток
 const app = express()
 const server = http.createServer(app)
+
+// Ініціалізуємо socket.io
 const io = socketIo(server)
 
-let games = {}
+// Статичні файли (наприклад, ваш HTML, CSS, JS)
+app.use(express.static('public')) // Вказуємо папку для статичних файлів
 
-app.use(express.static('public'))
+// Основна маршрутка, яка виводить ваш HTML
+app.get('/', (req, res) => {
+	res.sendFile(__dirname + '/public/index.html') // Відправляє HTML файл
+})
+
+let games = {} // Об'єкт для зберігання інформації про кожну гру
 
 io.on('connection', socket => {
-	console.log('Новое подключение: ' + socket.id)
+	console.log('A player connected')
 
-	// Подключение игрока к комнате с кодом '12345'
 	socket.on('joinGame', ({ nickname, gameCode }) => {
-		if (gameCode !== '12345') {
-			return socket.emit('gameError', 'Неверный код игры')
-		}
-
 		if (!games[gameCode]) {
 			games[gameCode] = {
 				players: [],
-				started: false,
+				history: [],
 				currentPlayerIndex: 0,
+				gameStarted: false,
 			}
 		}
 
-		// Проверяем, что игрок не подключен уже
-		if (games[gameCode].players.includes(nickname)) {
-			return socket.emit('gameError', 'Вы уже подключены')
+		if (!games[gameCode].players.includes(nickname)) {
+			games[gameCode].players.push(nickname)
 		}
 
-		// Добавляем игрока в игру
-		games[gameCode].players.push(nickname)
 		socket.join(gameCode)
 
-		// Отправляем список игроков
-		io.to(gameCode).emit('gameJoined', { players: games[gameCode].players })
+		io.to(gameCode).emit('gameJoined', {
+			players: games[gameCode].players,
+		})
 	})
 
-	// Запуск игры
 	socket.on('startGame', gameCode => {
-		if (gameCode !== '12345') {
-			return socket.emit('gameError', 'Неверный код игры')
+		if (games[gameCode]) {
+			games[gameCode].gameStarted = true
+			io.to(gameCode).emit('gameStart')
 		}
-
-		if (!games[gameCode]) {
-			return socket.emit('gameError', 'Игра не существует')
-		}
-
-		if (games[gameCode].started) {
-			return socket.emit('gameError', 'Игра уже началась')
-		}
-
-		// Проверяем, что в комнате есть хотя бы два игрока
-		if (games[gameCode].players.length < 2) {
-			return socket.emit(
-				'gameError',
-				'Нужно минимум два игрока для начала игры'
-			)
-		}
-
-		games[gameCode].started = true
-		io.to(gameCode).emit('gameStart')
 	})
 
 	socket.on('playerMove', ({ city, gameCode, player }) => {
-		if (!games[gameCode]) {
-			return socket.emit('gameError', 'Игра не существует')
+		if (!games[gameCode]) return
+
+		if (games[gameCode].history.includes(city.toLowerCase())) {
+			io.to(gameCode).emit('gameError', 'Этот город уже был использован!')
+			return
 		}
 
-		if (
-			!games[gameCode].players[games[gameCode].currentPlayerIndex] === player
-		) {
-			return socket.emit('gameError', 'Не твой ход')
-		}
-
-		// Здесь можно добавить логику для проверки города
-		console.log(`${player} ввел город: ${city}`)
+		games[gameCode].history.push(city.toLowerCase())
 
 		io.to(gameCode).emit('cityAccepted', { city })
+		io.to(gameCode).emit('updateHistory', games[gameCode].history)
 
-		// Переключаем игрока
 		games[gameCode].currentPlayerIndex =
 			(games[gameCode].currentPlayerIndex + 1) % games[gameCode].players.length
 	})
 
-	// Обработка выхода игроков
 	socket.on('disconnect', () => {
-		console.log('Игрок отключился')
+		// Перевірка і видалення ігор з відсутніми гравцями
 	})
 })
 
-server.listen(3000, () => {
-	console.log('Сервер запущен на порту 3000')
+// Запуск сервера
+const port = 3000
+server.listen(port, () => {
+	console.log(`Server running on port ${port}`)
 })

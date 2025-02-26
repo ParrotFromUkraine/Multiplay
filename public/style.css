@@ -20,20 +20,6 @@ body {
     justify-content: center;
 }
 
-#registration, #game {
-    max-width: 600px;
-    padding: 30px;
-    text-align: center;
-    background: rgba(0, 0, 0, 0.8);
-    border-radius: 10px;
-    box-shadow: 0px 0px 20px rgba(0, 255, 0, 0.5);
-    transition: transform 0.3s ease;
-}
-
-#registration:hover, #game:hover {
-    transform: scale(1.02);
-}
-
 h1 {
     color: #00ff00;
     margin-bottom: 20px;
@@ -90,23 +76,6 @@ button:hover {
     font-weight: bold;
 }
 
-#history {
-    position: fixed;
-    left: 10px;
-    top: 100px;
-    padding: 15px;
-    max-height: 70vh;
-    overflow-y: auto;
-    width: 280px;
-    background: black;
-    color: #00ff00;
-    font-family: 'Courier New', Courier, monospace;
-    border-radius: 8px;
-    box-shadow: 0px 0px 15px rgba(0, 255, 0, 0.3);
-    border: 2px solid #00ff00;
-    padding: 10px;
-    white-space: pre-wrap;
-}
 
 #gamePlay {
     margin-top: 20px;
@@ -116,4 +85,31 @@ button:hover {
     color: green;
     font-size: 18px;
     font-weight: bold;
+}
+#history {
+    position: fixed;
+    left: 10px;
+    top: 100px;
+    padding: 15px;
+    max-height: 70vh;
+    width: 280px;
+    background: black;
+    color: #00ff00;
+    border-radius: 8px;
+    overflow-y: auto; /* Добавляет прокрутку, если контент большой */
+    box-shadow: 0px 0px 10px rgba(0, 255, 0, 0.5);
+    transition: none; /* Убираем любые анимации, если были */
+}
+
+#registration, #game {
+    max-width: 600px;
+    padding: 30px;
+    text-align: center;
+    background: rgba(0, 0, 0, 0.8);
+    border-radius: 10px;
+    box-shadow: 0px 0px 20px rgba(0, 255, 0, 0.5);
+}
+
+#registration:hover, #game:hover {
+    transform: none; /* Убираем масштабирование */
 }

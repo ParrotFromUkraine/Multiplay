@@ -108,3 +108,8 @@ socket.on('gameStart', () => {
     startButton.textContent = "Игра началась";
     startButton.disabled = true; // Отключаем кнопку после старта игры
 });
+
+socket.on('updateHistory', history => {
+	const historyElement = document.getElementById('history')
+	historyElement.innerHTML = history.map(item => `<p>${item}</p>`).join('')
+})
