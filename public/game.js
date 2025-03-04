@@ -1,11 +1,12 @@
 const socket = io()
 
-let playerNickname = ''
-let gameCode = '12345' // Код комнаты
 let players = []
-let currentPlayerIndex = 0 // Индекс текущего игрока
+let history = [] 
+
+let currentPlayerIndex = 0
 let gameStarted = false
-let history = [] // История введенных городов
+let playerNickname = 'KeshaJan'
+let gameCode = '12345' 
 
 function joinGame() {
 	playerNickname = document.getElementById('nickname').value
@@ -33,10 +34,6 @@ socket.on('gameStart', () => {
 	setCurrentPlayer()
 })
 
-socket.on('gameError', message => {
-	document.getElementById('errorMessage').textContent = message
-})
-
 function updatePlayerList(players) {
 	const playersList = document.getElementById('players')
 	playersList.innerHTML = players.map(player => `<p>${player}</p>`).join('')
@@ -59,22 +56,18 @@ function submitCity() {
 		return
 	}
 
-	// Отправляем город серверу
 	socket.emit('playerMove', {
 		city: city,
 		gameCode: gameCode,
 		player: players[currentPlayerIndex],
 	})
 
-	// Добавляем город в историю
 	history.push(`${players[currentPlayerIndex]}: ${city}`)
 	updateHistory()
 
-	// Переключаем на следующего игрока
 	currentPlayerIndex = (currentPlayerIndex + 1) % players.length
 	setCurrentPlayer()
 
-	// Очищаем поле ввода
 	document.getElementById('cityInput').value = ''
 	document.getElementById('gameMessage').textContent = ''
 }
@@ -85,11 +78,9 @@ function updateHistory() {
 }
 
 socket.on('cityAccepted', data => {
-	// Успешный ход, можно обновить состояние игры
 	document.getElementById(
 		'gameMessage'
 	).textContent = `Город ${data.city} принят!`
-	// Переключаем ход на следующего игрока
 	setCurrentPlayer()
 })
 
@@ -97,16 +88,14 @@ socket.on('gameError', message => {
 	document.getElementById('gameMessage').textContent = message
 })
 
-// После старта игры
 socket.on('gameStart', () => {
     gameStarted = true;
     document.getElementById("gamePlay").style.display = "block";
     setCurrentPlayer();
 
-    // Изменяем текст кнопки на "Игра началась"
     const startButton = document.getElementById("startGameBtn");
     startButton.textContent = "Игра началась";
-    startButton.disabled = true; // Отключаем кнопку после старта игры
+    startButton.disabled = true;
 });
 
 socket.on('updateHistory', history => {
