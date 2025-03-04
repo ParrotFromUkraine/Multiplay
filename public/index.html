@@ -7,30 +7,32 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <div id="registration">
-        <h1>Регистрация в игру</h1>
-        <div class="form-group">
-            <label for="nickname">Никнейм:</label>
-            <input type="text" id="nickname" placeholder="Введите ваш никнейм" class="nickname" required>
+    <div id="background">
+        <div id="registration">
+            <h1>Регистрация в игру</h1>
+            <div class="form-group">
+                <label for="nickname">Никнейм:</label>
+                <input type="text" id="nickname" placeholder="Введите ваш никнейм" class="nickname" required>
+            </div>
+            <div class="form-group">
+                <label for="gameCode">Введите код для подключения:</label>
+                <input type="text" id="gameCode" value="12345" class="gamecode" disabled>
+            </div>
+            <button onclick="joinGame()">Подключиться</button>
+            <p id="errorMessage" style="color: red;"></p>
         </div>
-        <div class="form-group">
-            <label for="gameCode">Введите код для подключения:</label>
-            <input type="text" id="gameCode" value="12345" class="gamecode" disabled>
-        </div>
-        <button onclick="joinGame()">Подключиться</button>
-        <p id="errorMessage" style="color: red;"></p>
-    </div>
-    
-    <div id="game" style="display: none;">
-        <h1>Добро пожаловать в игру, <span id="playerNickname"></span>!</h1>
-        <div id="players" class="players"></div>
-        <div id="history" class="history"></div>
-        <button id="startGameBtn" onclick="startGame()">Начать игру</button>
-        <div id="gamePlay" style="display: none;">
-            <h3>Ход игрока: <span id="currentPlayer"></span></h3>
-            <input type="text" id="cityInput" placeholder="Введите город" />
-            <button onclick="submitCity()">Отправить</button>
-            <p id="gameMessage"></p>
+        
+        <div id="game" style="display: none;">
+            <h1>Добро пожаловать в игру, <span id="playerNickname"></span>!</h1>
+            <div id="players" class="players"></div>
+            <div id="history" class="history"></div>
+            <button id="startGameBtn" onclick="startGame()">Начать игру</button>
+            <div id="gamePlay" style="display: none;">
+                <h3>Ход игрока: <span id="currentPlayer"></span></h3>
+                <input type="text" id="cityInput" placeholder="Введите город" />
+                <button onclick="submitCity()">Отправить</button>
+                <p id="gameMessage"></p>
+            </div>
         </div>
     </div>
 
@@ -38,5 +40,3 @@
     <script src="game.js"></script>
 </body>
 </html>
-
-<style>
