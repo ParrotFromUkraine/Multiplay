@@ -9,34 +9,30 @@
 <body>
     <div id="registration">
         <h1>Регистрация в игру</h1>
-
         <div class="form-group">
             <label for="nickname">Никнейм:</label>
-            <input type="text" id="nickname" placeholder="Введите ваш никнейм" class="nickname" required>
+            <input type="text" id="nickname" placeholder="Введите ваш никнейм" required>
         </div>
-
         <div class="form-group">
             <label for="gameCode">Введите код для подключения:</label>
-            <input type="text" id="gameCode" value="12345" class="gamecode" disabled>
+            <input type="text" id="gameCode" value="12345" disabled>
         </div>
-
         <button onclick="joinGame()">Подключиться</button>
-
-        <p id="errorMessage" style="color: red;"></p>
+        <p id="errorMessage"></p>
     </div>
-
+    
     <div id="game" style="display: none;">
-        <h1>Добро пожаловать в игру, <span id="playerNickname"></span>!</h1>
-        <div id="players" class="players"></div>
-        <h2><div id="history" class="history"></div></h3>
-
-        <button id="startGameBtn" onclick="startGame()">Начать игру</button>
-
-        <div id="gamePlay" style="display: none;">
-            <h3>Ход игрока: <span id="currentPlayer"></span></h3>
-            <input type="text" id="cityInput" placeholder="Введите город" />
-            <button onclick="submitCity()">Отправить</button>
-            <p id="gameMessage"></p>
+        <div id="history" class="history">История игры</div>
+        <div id="game-container">
+            <h1>Добро пожаловать в игру, <span id="playerNickname"></span>!</h1>
+            <div id="players" class="players"></div>
+            <button id="startGameBtn" onclick="startGame()">Начать игру</button>
+            <div id="gamePlay" style="display: none;">
+                <h3>Ход игрока: <span id="currentPlayer"></span></h3>
+                <input type="text" id="cityInput" placeholder="Введите город" />
+                <button onclick="submitCity()">Отправить</button>
+                <p id="gameMessage"></p>
+            </div>
         </div>
     </div>
 
