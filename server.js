@@ -13,7 +13,7 @@ const io = socketIo(server)
 app.use(express.static('public')) // Вказуємо папку для статичних файлів
 
 // Основна маршрутка, яка виводить ваш HTML
-app.get('/', (req, res) => {
+app.get('/cityGame', (req, res) => {
 	res.sendFile(__dirname + '/public/index.html') // Відправляє HTML файл
 })
 
